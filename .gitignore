@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/IIMAuthenticator/SSOTestApp/SSOTestApp.csproj.user
+/IIMAuthenticator/SSOTestApp/obj
+/IIMAuthenticator/SSOTestApp/bin/Debug
+/IIMAuthenticator/IIMAuthenticator/obj
+/IIMAuthenticator/IIMAuthenticator/IIMAuthenticator.csproj.user
+/IIMAuthenticator/IIMAuthenticator/bin/Debug
+/IIMAuthenticator/.vs/IIMAuthenticator/v14/.suo
