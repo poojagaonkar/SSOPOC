@@ -7,11 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Android.Content;
+using Android.Util;
+using Java.Lang;
+using Java.Util.Concurrent;
 
 namespace SSOTestApp
 {
     [Activity(Label = "SSOTestApp", MainLauncher = true)]
-    public class MainActivity : Activity
+    public class MainActivity : Activity, IAccountManagerFuture
     {
         private static string STATE_DIALOG = "state_dialog";
 	    private static string STATE_INVALIDATE = "state_invalidate";
@@ -22,6 +25,32 @@ namespace SSOTestApp
         private Account[] availableAccounts;
         private string tokenType;
 
+        public bool IsCancelled
+        {
+            get
+            {
+                return false;
+                //throw new NotImplementedException();
+            }
+        }
+
+        public bool IsDone
+        {
+            get
+            {
+                return true;
+                //throw new NotImplementedException();
+            }
+        }
+
+        public Java.Lang.Object Result
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -29,9 +58,57 @@ namespace SSOTestApp
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
+            Button btnAddAccount = FindViewById<Button>(Resource.Id.btnAddAccount);
+            Button btnGetAuthToken = FindViewById<Button>(Resource.Id.btnGetAuthToken);
+            Button btnInvalidateAuthToken = FindViewById<Button>(Resource.Id.btnInvalidateAuthToken);
+            Button btnGetAuthTokenConvenient = FindViewById<Button>(Resource.Id.btnGetAuthTokenConvenient);
+
             mAccountManager = AccountManager.Get(this);
-            AddNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
-            ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
+
+            btnAddAccount.Click += delegate {
+
+                AddNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+
+            };
+
+            btnGetAuthToken.Click += delegate {
+
+                ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
+
+            };
+            btnGetAuthTokenConvenient.Click += delegate {
+
+                GetTokenForAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+
+            };
+            btnInvalidateAuthToken.Click += delegate {
+
+               ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
+
+            };
+
+            if (savedInstanceState != null)
+            {
+                bool showDialog = savedInstanceState.GetBoolean(STATE_DIALOG);
+                bool invalidate = savedInstanceState.GetBoolean(STATE_INVALIDATE);
+                if (showDialog)
+                {
+                    ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, invalidate);
+                }
+            }
+        }
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+            if (mAlertDialog != null && mAlertDialog.IsShowing)
+            {
+                outState.PutBoolean(STATE_DIALOG, true);
+                outState.PutBoolean(STATE_INVALIDATE, mInvalidate);
+            }
+        }
+        private void GetTokenForAccountCreateIfNeeded(string aCCOUNT_TYPE, string aUTHTOKEN_TYPE_FULL_ACCESS)
+        {
+            //throw new NotImplementedException();
         }
 
         private void ShowAccountPicker(string authTokenType, bool invalidate)
@@ -81,25 +158,44 @@ namespace SSOTestApp
             //    GetExistingAccountAuthToken(availableAccounts[e.Position], tokenType);
         }
 
+            /**
+         * Add new account to the account manager
+         * @param accountType
+         * @param authTokenType
+         */
+
         private void AddNewAccount(string accountType, string authTokenType)
         {
             IAccountManagerCallback callback = new AccountManagerCallback();
+            callback.Run(this);
         }
         private class AccountManagerCallback : Java.Lang.Object, IAccountManagerCallback
         {
             void IAccountManagerCallback.Run(IAccountManagerFuture future)
             {
-                if (future.IsCancelled)
+                try
                 {
-                    //task was cancelled code
+                    if (future.IsCancelled)
+                    {
+                        //task was cancelled code
+                    }
+                    else if (future.IsDone)
+                    {
+                        //task is completed
+                        var result = future.Result as Bundle;
+                        //ShowMessage("Account was created");
+                        Log.Debug("IIM", "AddNewAccount Bundle is " + result);
+                        //process result
+                    }
+                    
+
                 }
-                else if (future.IsDone)
+                catch (System.Exception e)
                 {
-                    //task is completed
-                    Java.Lang.Object result = future.Result;
-                    //ShowMessage("Account was created");
-                    //process result
+                    Console.WriteLine(e.StackTrace);
+                    //showMessage(e.getMessage());
                 }
+              
             }
 
           
@@ -112,6 +208,15 @@ namespace SSOTestApp
           
         }
 
+        public bool Cancel(bool mayInterruptIfRunning)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Java.Lang.Object GetResult(long timeout, TimeUnit unit)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

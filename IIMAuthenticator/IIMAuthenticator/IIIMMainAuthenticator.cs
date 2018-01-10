@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace IIMAuthenticator
 {
-    public class IIIMMainAuthenticator : AbstractAccountAuthenticator
+    public class IIIMMainAuthenticator : Android.Accounts.AbstractAccountAuthenticator
     {
         private String TAG = "IIMMainAuthenticator";
         private Context mContext;
@@ -20,7 +20,9 @@ namespace IIMAuthenticator
 
         public override Bundle AddAccount(AccountAuthenticatorResponse response, string accountType, string authTokenType, string[] requiredFeatures, Bundle options)
         {
-            Log.Debug("IIM", TAG + "> addAccount");
+            try
+            {
+                Log.Debug("IIM", TAG + "> addAccount");
 
             Intent intent = new Intent(mContext, typeof(AuthenticatorActivity));
             intent.PutExtra(AuthenticatorActivity.ARG_ACCOUNT_TYPE, accountType);
@@ -31,11 +33,17 @@ namespace IIMAuthenticator
             Bundle bundle = new Bundle();
             bundle.PutParcelable(AccountManager.KeyIntent, intent);
             return bundle;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public override Bundle ConfirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle options)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Confirm Credentials");
+            return this.ConfirmCredentials(response, account, options);
         }
 
         public override Bundle EditProperties(AccountAuthenticatorResponse response, string accountType)
