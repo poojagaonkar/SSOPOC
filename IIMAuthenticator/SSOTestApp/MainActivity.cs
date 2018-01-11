@@ -75,6 +75,8 @@ namespace SSOTestApp
 
                  AddNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 
+                availableAccounts = mAccountManager.GetAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+
             };
 
             btnGetAuthToken.Click += delegate {

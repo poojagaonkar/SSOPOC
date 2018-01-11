@@ -11,7 +11,7 @@ namespace com.rapidcircle.iimAuthenticator
         public static Uri RETURNURI = new Uri("http://checkin365-redirect");
 
         public static string CLIENTID = "a6bdca5c-0084-46fd-912d-8db9f74e31c3";
-        public static string SHAREPOINTURL = null;
+        public static string SHAREPOINTURL = "https://rapidcircle1com.sharepoint.com/sites/iimdev";
         public static string GRAPHURI = "https://graph.microsoft.com";
         public static string OFFICE365URI = "https://outlook.office365.com";
         public static string GraphToken { get; set; }

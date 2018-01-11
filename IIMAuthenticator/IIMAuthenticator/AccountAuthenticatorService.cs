@@ -21,8 +21,8 @@ namespace com.rapidcircle.iimAuthenticator
     {
         private static IIIMMainAuthenticator sAccountAuthenticator = null;
 
-        public static string ACCOUNT_TYPE = "com.myapp.account";
-        public static string ACCOUNT_NAME = "MyApp";
+        public static string ACCOUNT_TYPE = "com.rapidcircle.iimAuthenticator";
+        public static string ACCOUNT_NAME = "IIM";
         private Context _context;
 
         public AccountAuthenticatorService() : base()
