@@ -5,7 +5,7 @@ using Android.Content;
 using Android.Util;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-namespace IIMAuthenticator
+namespace com.rapidcircle.iimAuthenticator
 {
     public class IIIMMainAuthenticator : Android.Accounts.AbstractAccountAuthenticator
     {

@@ -10,11 +10,14 @@ using Android.Content;
 using Android.Util;
 using Java.Lang;
 using Java.Util.Concurrent;
+using com.rapidcircle.iimAuthenticator;
+using System.Threading.Tasks;
+using Android.Views;
 
 namespace SSOTestApp
 {
     [Activity(Label = "SSOTestApp", MainLauncher = true)]
-    public class MainActivity : Activity, IAccountManagerFuture
+    public class MainActivity : Activity//, IAccountManagerFuture
     {
         private static string STATE_DIALOG = "state_dialog";
 	    private static string STATE_INVALIDATE = "state_invalidate";
@@ -24,6 +27,8 @@ namespace SSOTestApp
         private bool mInvalidate;
         private Account[] availableAccounts;
         private string tokenType;
+        private string mAccountType;
+        private string mAuthToken;
 
         public bool IsCancelled
         {
@@ -47,7 +52,8 @@ namespace SSOTestApp
         {
             get
             {
-                throw new NotImplementedException();
+                Java.Lang.Object mObj = new Bundle();
+                return mObj;
             }
         }
 
@@ -65,9 +71,9 @@ namespace SSOTestApp
 
             mAccountManager = AccountManager.Get(this);
 
-            btnAddAccount.Click += delegate {
+            btnAddAccount.Click +=  delegate {
 
-                AddNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+                 AddNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 
             };
 
@@ -166,9 +172,30 @@ namespace SSOTestApp
 
         private void AddNewAccount(string accountType, string authTokenType)
         {
-            IAccountManagerCallback callback = new AccountManagerCallback();
-            callback.Run(this);
+            //IAccountManagerCallback callback = new AccountManagerCallback();
+            //callback.Run(this);
+            this.mAccountType = accountType;
+            this.mAuthToken = authTokenType;
+            var thread = new Thread(NewAccount);
+            thread.Start();
+            //CheckIfFirstRun();
+            //Finish();
+
+            var mFuture = mAccountManager.AddAccount(accountType, authTokenType, null, null, this, null, null);
         }
+
+        private void NewAccount()
+        {
+            var future = mAccountManager.AddAccount(mAccountType,mAccountType, null, null, null, null, null);
+            var bundle = future.Result as Bundle;
+                if (bundle != null)
+                {
+                    var intent = bundle.GetParcelable(AccountManager.KeyIntent) as Intent;
+                    StartActivity(intent);
+                }
+           
+        }
+
         private class AccountManagerCallback : Java.Lang.Object, IAccountManagerCallback
         {
             void IAccountManagerCallback.Run(IAccountManagerFuture future)

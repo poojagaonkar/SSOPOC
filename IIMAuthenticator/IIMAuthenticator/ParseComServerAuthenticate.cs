@@ -1,9 +1,10 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿using IIMAuthenticator;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IIMAuthenticator
+namespace com.rapidcircle.iimAuthenticator
 {
     public class ParseComServerAuthenticate : IServerAuthenticate
     {

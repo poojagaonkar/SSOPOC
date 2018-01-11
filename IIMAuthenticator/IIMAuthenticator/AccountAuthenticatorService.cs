@@ -12,7 +12,7 @@ using Android.Widget;
 using IIMAuthenticator;
 using Android.Accounts;
 
-namespace IIMAuthenticator
+namespace com.rapidcircle.iimAuthenticator
 {
     [Service]
     [IntentFilter(new[] { "android.accounts.AccountAuthenticator" })]

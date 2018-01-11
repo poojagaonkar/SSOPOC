@@ -3,8 +3,10 @@
 	<uses-sdk android:minSdkVersion="21" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<application android:allowBackup="true" android:label="@string/app_name">
-		<service android:name="com.rapidcircle.iimAuthenticator.AccountAuthenticatorService">
+		<service android:name="com.rapidcircle.iimAuthenticator.AccountAuthenticatorService" android:exported="false">
 			<intent-filter>
 				<action android:name="android.accounts.AccountAuthenticator" />
 			</intent-filter>

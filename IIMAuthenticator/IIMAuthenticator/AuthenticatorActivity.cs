@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using IIMAuthenticator;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-namespace IIMAuthenticator
+namespace com.rapidcircle.iimAuthenticator
 {
     [Activity(Label = "AuthenticatorActivity", MainLauncher = true)]
     public class AuthenticatorActivity : AccountAuthenticatorActivity
@@ -40,7 +40,7 @@ namespace IIMAuthenticator
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Main);
+            SetContentView(IIMAuthenticator.Resource.Layout.Main);
 
             mAccountManager = AccountManager.Get(BaseContext);
 

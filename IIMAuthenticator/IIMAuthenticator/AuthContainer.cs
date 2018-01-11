@@ -11,7 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-namespace IIMAuthenticator
+namespace com.rapidcircle.iimAuthenticator
 {
     public class AuthContainer
     {

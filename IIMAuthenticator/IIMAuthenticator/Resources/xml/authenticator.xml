@@ -2,7 +2,7 @@
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
                        android:accountType="com.rapidcircle.iimAuthenticator"
                        android:label="IIM"
+                       android:icon="@drawable/iimicon"
+                       android:smallIcon="@drawable/iimicon"
                        android:accountPreferences="@xml/prefs"/>
 
-<!--android:icon="@drawable/ic_icon"
-android:smallIcon="@drawable/ic_udinic"-->

@@ -12,7 +12,7 @@ using Android.Widget;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System.Threading.Tasks;
 
-namespace IIMAuthenticator
+namespace com.rapidcircle.iimAuthenticator
 {
     public interface IServerAuthenticate
     {

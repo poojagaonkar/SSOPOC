@@ -1,4 +1,4 @@
-﻿namespace IIMAuthenticator
+﻿namespace com.rapidcircle.iimAuthenticator
 {
     public enum AuthResultCode
     {

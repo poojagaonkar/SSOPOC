@@ -10,11 +10,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace IIMAuthenticator
+namespace com.rapidcircle.iimAuthenticator
 {
     public static class AccountGeneral
     {
-        public static  string ACCOUNT_TYPE = "com.rapidcricle.iimauthenticatorapp";
+        public static  string ACCOUNT_TYPE = "com.rapidcircle.iimAuthenticator";
 
         /**
          * Account name
@@ -25,10 +25,10 @@ namespace IIMAuthenticator
          * Auth token types
          */
         public static  String AUTHTOKEN_TYPE_READ_ONLY = "Read only";
-        public static  String AUTHTOKEN_TYPE_READ_ONLY_LABEL = "Read only access to an Udinic account";
+        public static  String AUTHTOKEN_TYPE_READ_ONLY_LABEL = "Read only access to an IIM account";
 
         public static  String AUTHTOKEN_TYPE_FULL_ACCESS = "Full access";
-        public static  String AUTHTOKEN_TYPE_FULL_ACCESS_LABEL = "Full access to an Udinic account";
+        public static  String AUTHTOKEN_TYPE_FULL_ACCESS_LABEL = "Full access to an IIM account";
 
         public static  IServerAuthenticate sServerAuthenticate = new ParseComServerAuthenticate();
     }
