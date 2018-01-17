@@ -173,12 +173,12 @@ namespace com.rapidcircle.iimAuthenticator
                 {
                     Log.Debug("IIM", TAG + "> finishLogin > setPassword");
                     //mAccountManager.SetPassword(account, accountToken);
-                    Toast.MakeText(this, "finishLogin", ToastLength.Long).Show();
+                    Toast.MakeText(this, accountName + accountToken, ToastLength.Long).Show();
 
                 }
 
-                SetAccountAuthenticatorResult(Intent.Extras);
-                SetResult(Result.Ok, Intent);
+                SetAccountAuthenticatorResult(data.Extras);
+                SetResult(Result.Ok, data);
                 Finish();
             }
             catch(Exception xe)

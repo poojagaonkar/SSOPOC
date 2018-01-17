@@ -13,6 +13,7 @@ using Java.Util.Concurrent;
 using com.rapidcircle.iimAuthenticator;
 using System.Threading.Tasks;
 using Android.Views;
+using Android.Runtime;
 
 namespace SSOTestApp
 {
@@ -193,11 +194,14 @@ namespace SSOTestApp
                 if (bundle != null)
                 {
                     var intent = bundle.GetParcelable(AccountManager.KeyIntent) as Intent;
-                    StartActivity(intent);
+                    StartActivityForResult(intent, 1);
                 }
            
         }
-
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+        }
         private class AccountManagerCallback : Java.Lang.Object, IAccountManagerCallback
         {
             void IAccountManagerCallback.Run(IAccountManagerFuture future)
