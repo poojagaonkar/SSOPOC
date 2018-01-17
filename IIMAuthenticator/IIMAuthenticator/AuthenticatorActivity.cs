@@ -187,6 +187,9 @@ namespace com.rapidcircle.iimAuthenticator
                 mIntent.PutExtra(AccountManager.KeyAccountType, data.GetStringExtra(AccountManager.KeyAccountType));
                 SetAccountAuthenticatorResult(mIntent.Extras);
                 SetResult(Result.Ok, data);
+
+               //var availableAccounts = mAccountManager.GetAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+
                 Finish();
             }
             catch(Exception xe)

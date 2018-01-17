@@ -138,12 +138,20 @@ namespace SSOTestApp
                     name.Add(acc.Name);
                 }
 
-
+                var arrAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, name);
                 // Account picker
-                mAlertDialog = new AlertDialog.Builder(this).Create();
-                mAlertDialog.SetTitle("Pick Account");
-                mAlertDialog.ListView.Adapter = new ArrayAdapter<string>(BaseContext, Android.Resource.Layout.SimpleListItem1, name);
-                mAlertDialog.ListView.ItemClick += ListView_ItemClick;
+                var mAlertDialogBuilder = new AlertDialog.Builder(this);
+                mAlertDialogBuilder.SetTitle("Pick Account");
+                mAlertDialogBuilder.SetNegativeButton("Cancel", delegate { });
+                mAlertDialogBuilder.SetAdapter(arrAdapter, new EventHandler<DialogClickEventArgs>(delegate{
+
+                    Toast.MakeText(this, "Blah", ToastLength.Long).Show();
+
+
+                }));
+                
+                //mAlertDialog.ListView.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, name);
+                //mAlertDialog.ListView.ItemClick += ListView_ItemClick;
                 //            SetAdapter(new ArrayAdapter<string>(BaseContext, Android.Resource.Layout.SimpleListItem1, name));
                 //                {
                 //            @Override
@@ -155,7 +163,7 @@ namespace SSOTestApp
                 //            getExistingAccountAuthToken(availableAccounts[which], authTokenType);
                 //    }
                 //}).create();
-                mAlertDialog.Show();
+                mAlertDialogBuilder.Create().Show();
         }
         }
 
