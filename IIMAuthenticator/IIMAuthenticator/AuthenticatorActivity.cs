@@ -36,7 +36,7 @@ namespace com.rapidcircle.iimAuthenticator
 
         private AccountManager mAccountManager;
         private string mAuthTokenType;
-
+        private string mAccountType;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -48,9 +48,10 @@ namespace com.rapidcircle.iimAuthenticator
             mAccountManager = AccountManager.Get(BaseContext);
 
             string accountName = Intent.GetStringExtra(ARG_ACCOUNT_NAME);
-            mAuthTokenType = Intent.GetStringExtra(ARG_ACCOUNT_TYPE);
+            mAuthTokenType = Intent.GetStringExtra(ARG_AUTH_TYPE);
+            mAccountType = Intent.GetStringExtra(ARG_ACCOUNT_TYPE) ?? "com.rapidcircle.iimAuthenticator";
 
-            if(mAuthTokenType == null)
+            if (mAuthTokenType == null)
             {
                 mAuthTokenType = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
 
@@ -73,7 +74,7 @@ namespace com.rapidcircle.iimAuthenticator
                 else
                 {
                     //Toast.MakeText(this, "Success" + resultIntent.GetStringExtra(AccountManager.KeyAuthtoken), ToastLength.Long).Show();
-
+                   
                     FinishLogin(resultIntent);
                 }
 
@@ -97,8 +98,10 @@ namespace com.rapidcircle.iimAuthenticator
 
                 /*Add the user info from UserInfo object*/
                 data.PutString(AccountManager.KeyAccountName, result.AuthResult.UserInfo.GivenName + " " + result.AuthResult.UserInfo.FamilyName);
-                data.PutString(AccountManager.KeyAccountType, result.AuthResult.AccessTokenType);
+                data.PutString(AccountManager.KeyAccountType, mAccountType);
                 data.PutString(AccountManager.KeyAuthtoken, result.AuthResult.AccessToken);
+                data.PutBoolean(ARG_IS_ADDING_NEW_ACCOUNT, true);
+                //data.PutExtra(AccountManager.KeyAccountAuthenticatorResponse, response);
                 //data.PutString(PARAM_USER_PASS, userPass);
 
             }
@@ -156,7 +159,8 @@ namespace com.rapidcircle.iimAuthenticator
                 String accountToken = data.GetStringExtra(AccountManager.KeyAuthtoken);
                 Account account = new Account(accountName, data.GetStringExtra(AccountManager.KeyAccountType));
 
-                if (data.GetBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false))
+                var status = data.GetBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false);
+                if (status)
                 {
                     Log.Debug("udinic", TAG + "> finishLogin > addAccountExplicitly");
                     String authtoken = data.GetStringExtra(AccountManager.KeyAuthtoken);
@@ -164,7 +168,7 @@ namespace com.rapidcircle.iimAuthenticator
 
                     // Creating the account on the device and setting the auth token we got
                     // (Not setting the auth token will cause another call to the server to authenticate the user)
-                    mAccountManager.AddAccountExplicitly(account, accountToken, null);
+                    mAccountManager.AddAccountExplicitly(account, accountToken, new Bundle());
                     mAccountManager.SetAuthToken(account, authtokenType, authtoken);
 
                     Toast.MakeText(this, "Account added", ToastLength.Long).Show();
@@ -172,12 +176,16 @@ namespace com.rapidcircle.iimAuthenticator
                 else
                 {
                     Log.Debug("IIM", TAG + "> finishLogin > setPassword");
+
+                  
                     //mAccountManager.SetPassword(account, accountToken);
                     Toast.MakeText(this, accountName + accountToken, ToastLength.Long).Show();
 
                 }
-
-                SetAccountAuthenticatorResult(data.Extras);
+                var mIntent = new Intent();
+                mIntent.PutExtra(AccountManager.KeyAccountName, accountName);
+                mIntent.PutExtra(AccountManager.KeyAccountType, data.GetStringExtra(AccountManager.KeyAccountType));
+                SetAccountAuthenticatorResult(mIntent.Extras);
                 SetResult(Result.Ok, data);
                 Finish();
             }

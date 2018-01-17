@@ -184,7 +184,7 @@ namespace SSOTestApp
             //CheckIfFirstRun();
             //Finish();
 
-            var mFuture = mAccountManager.AddAccount(accountType, authTokenType, null, null, this, null, null);
+           // var mFuture = mAccountManager.AddAccount(accountType, authTokenType, null, null, this, null, null);
         }
 
         private void NewAccount()
