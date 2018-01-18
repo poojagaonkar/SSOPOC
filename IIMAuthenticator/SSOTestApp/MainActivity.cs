@@ -143,36 +143,57 @@ namespace SSOTestApp
                 var mAlertDialogBuilder = new AlertDialog.Builder(this);
                 mAlertDialogBuilder.SetTitle("Pick Account");
                 mAlertDialogBuilder.SetNegativeButton("Cancel", delegate { });
-                mAlertDialogBuilder.SetAdapter(arrAdapter, new EventHandler<DialogClickEventArgs>(delegate{
+               
+                mAlertDialogBuilder.SetAdapter(arrAdapter, new EventHandler<DialogClickEventArgs>((sender, args) =>{
 
-                    Toast.MakeText(this, "Blah", ToastLength.Long).Show();
-
+                    if (invalidate)
+                    {
+                        InvalidateAuthToken(availableAccounts.ElementAt(args.Which), authTokenType);
+                    }
+                    else
+                    {
+                        GetExistingAccountAuthToken(availableAccounts.ElementAt(args.Which), tokenType);
+                    }
 
                 }));
-                
-                //mAlertDialog.ListView.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, name);
-                //mAlertDialog.ListView.ItemClick += ListView_ItemClick;
-                //            SetAdapter(new ArrayAdapter<string>(BaseContext, Android.Resource.Layout.SimpleListItem1, name));
-                //                {
-                //            @Override
-                //            public void onClick(DialogInterface dialog, int which)
-                //    {
-                //        if (invalidate)
-                //            invalidateAuthToken(availableAccounts[which], authTokenType);
-                //        else
-                //            getExistingAccountAuthToken(availableAccounts[which], authTokenType);
-                //    }
-                //}).create();
+              
                 mAlertDialogBuilder.Create().Show();
         }
         }
 
+       
+
+        private void GetExistingAccountAuthToken(Account account, string tokenType)
+        {
+            var mFuture = mAccountManager.GetAuthToken(account, tokenType, null, null, null, null);
+            var thread = new Thread(()=> {
+
+                Bundle bnd = mFuture.Result as Bundle;
+                string authtoken = bnd.GetString(AccountManager.KeyAuthtoken);
+
+            });
+            thread.Start();
+        }
+
+        private void InvalidateAuthToken(Account account, string authTokenType)
+        {
+            var mFuture = mAccountManager.GetAuthToken(account, tokenType, null, null, null, null);
+            var thread = new Thread(() => {
+
+                Bundle bnd = mFuture.Result as Bundle;
+                string authtoken = bnd.GetString(AccountManager.KeyAuthtoken);
+                mAccountManager.InvalidateAuthToken(account.Type, authtoken);
+                ShowMessage(account.Name + ": Invalidated");
+            });
+            thread.Start();
+        }
+
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            //if (mInvalidate)
-            //    InvalidateAuthToken(availableAccounts[e.Position], tokenType);
-            //else
-            //    GetExistingAccountAuthToken(availableAccounts[e.Position], tokenType);
+            if (mInvalidate)
+                InvalidateAuthToken(availableAccounts[e.Position], tokenType);
+            else
+                GetExistingAccountAuthToken(availableAccounts[e.Position], tokenType);
         }
 
             /**
@@ -183,8 +204,7 @@ namespace SSOTestApp
 
         private void AddNewAccount(string accountType, string authTokenType)
         {
-            //IAccountManagerCallback callback = new AccountManagerCallback();
-            //callback.Run(this);
+      
             this.mAccountType = accountType;
             this.mAuthToken = authTokenType;
             var thread = new Thread(NewAccount);
@@ -192,7 +212,6 @@ namespace SSOTestApp
             //CheckIfFirstRun();
             //Finish();
 
-           // var mFuture = mAccountManager.AddAccount(accountType, authTokenType, null, null, this, null, null);
         }
 
         private void NewAccount()
@@ -206,46 +225,25 @@ namespace SSOTestApp
                 }
            
         }
+
+       
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
         }
-        private class AccountManagerCallback : Java.Lang.Object, IAccountManagerCallback
-        {
-            void IAccountManagerCallback.Run(IAccountManagerFuture future)
-            {
-                try
-                {
-                    if (future.IsCancelled)
-                    {
-                        //task was cancelled code
-                    }
-                    else if (future.IsDone)
-                    {
-                        //task is completed
-                        var result = future.Result as Bundle;
-                        //ShowMessage("Account was created");
-                        Log.Debug("IIM", "AddNewAccount Bundle is " + result);
-                        //process result
-                    }
-                    
-
-                }
-                catch (System.Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                    //showMessage(e.getMessage());
-                }
-              
-            }
-
-          
-        }
+       
         public void ShowMessage(string msg)
         {
             if (string.IsNullOrEmpty(msg))
                 return;
+            else
+            {
+                RunOnUiThread(() => {
 
+                    Toast.MakeText(this, msg, ToastLength.Long).Show();
+
+                });
+            }
           
         }
 
