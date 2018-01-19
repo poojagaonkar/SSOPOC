@@ -65,45 +65,56 @@ namespace SSOTestApp
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            Button btnAddAccount = FindViewById<Button>(Resource.Id.btnAddAccount);
-            Button btnGetAuthToken = FindViewById<Button>(Resource.Id.btnGetAuthToken);
-            Button btnInvalidateAuthToken = FindViewById<Button>(Resource.Id.btnInvalidateAuthToken);
-            Button btnGetAuthTokenConvenient = FindViewById<Button>(Resource.Id.btnGetAuthTokenConvenient);
-
-            mAccountManager = AccountManager.Get(this);
-
-            btnAddAccount.Click +=  delegate {
-
-                 AddNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
-
-                availableAccounts = mAccountManager.GetAccountsByType(AccountGeneral.ACCOUNT_TYPE);
-
-            };
-
-            btnGetAuthToken.Click += delegate {
-
-                ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
-
-            };
-            btnGetAuthTokenConvenient.Click += delegate {
-
-                GetTokenForAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
-
-            };
-            btnInvalidateAuthToken.Click += delegate {
-
-               ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
-
-            };
-
-            if (savedInstanceState != null)
+            try
             {
-                bool showDialog = savedInstanceState.GetBoolean(STATE_DIALOG);
-                bool invalidate = savedInstanceState.GetBoolean(STATE_INVALIDATE);
-                if (showDialog)
+                Button btnAddAccount = FindViewById<Button>(Resource.Id.btnAddAccount);
+                Button btnGetAuthToken = FindViewById<Button>(Resource.Id.btnGetAuthToken);
+                Button btnInvalidateAuthToken = FindViewById<Button>(Resource.Id.btnInvalidateAuthToken);
+                Button btnGetAuthTokenConvenient = FindViewById<Button>(Resource.Id.btnGetAuthTokenConvenient);
+
+                mAccountManager = AccountManager.Get(this);
+
+                btnAddAccount.Click += delegate
                 {
-                    ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, invalidate);
+
+                    AddNewAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+
+                    availableAccounts = mAccountManager.GetAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+
+                };
+
+                btnGetAuthToken.Click += delegate
+                {
+
+                    ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, false);
+
+                };
+                btnGetAuthTokenConvenient.Click += delegate
+                {
+
+                    GetTokenForAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+
+                };
+                btnInvalidateAuthToken.Click += delegate
+                {
+
+                    ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
+
+                };
+
+                if (savedInstanceState != null)
+                {
+                    bool showDialog = savedInstanceState.GetBoolean(STATE_DIALOG);
+                    bool invalidate = savedInstanceState.GetBoolean(STATE_INVALIDATE);
+                    if (showDialog)
+                    {
+                        ShowAccountPicker(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, invalidate);
+                    }
                 }
+            }
+            catch(System.Exception xe)
+            {
+                
             }
         }
         protected override void OnSaveInstanceState(Bundle outState)

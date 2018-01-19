@@ -45,40 +45,48 @@ namespace com.rapidcircle.iimAuthenticator
 
             var btnSubmit = FindViewById<Button>(IIMAuthenticator.Resource.Id.btnSubmit);
 
-            mAccountManager = AccountManager.Get(BaseContext);
-
-            string accountName = Intent.GetStringExtra(ARG_ACCOUNT_NAME);
-            mAuthTokenType = Intent.GetStringExtra(ARG_AUTH_TYPE);
-            mAccountType = Intent.GetStringExtra(ARG_ACCOUNT_TYPE) ?? "com.rapidcircle.iimAuthenticator";
-
-            if (mAuthTokenType == null)
+            try
             {
-                mAuthTokenType = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
+                mAccountManager = AccountManager.Get(BaseContext);
+
+                string accountName = Intent.GetStringExtra(ARG_ACCOUNT_NAME);
+                mAuthTokenType = Intent.GetStringExtra(ARG_AUTH_TYPE);
+                mAccountType = Intent.GetStringExtra(ARG_ACCOUNT_TYPE) ?? "com.rapidcircle.iimAuthenticator";
+
+                if (mAuthTokenType == null)
+                {
+                    mAuthTokenType = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
+
+                }
+
+                //if(accountName != null)
+                //{
+                //    FindViewById<TextView>(Resource.Id.accountName).Text = accountName;
+                //}
+
+                btnSubmit.Click += async delegate
+                {
+
+                    var resultIntent = await Submit();
+
+                    if (resultIntent.HasExtra(KEY_ERROR_MESSAGE))
+                    {
+                        Toast.MakeText(this, "Error Occured" + Intent.GetStringExtra(KEY_ERROR_MESSAGE), ToastLength.Long).Show();
+
+                    }
+                    else
+                    {
+                        //Toast.MakeText(this, "Success" + resultIntent.GetStringExtra(AccountManager.KeyAuthtoken), ToastLength.Long).Show();
+
+                        FinishLogin(resultIntent);
+                    }
+
+                };
+            }
+            catch(Exception xe)
+            {
 
             }
-
-            //if(accountName != null)
-            //{
-            //    FindViewById<TextView>(Resource.Id.accountName).Text = accountName;
-            //}
-
-            btnSubmit.Click += async delegate {
-
-                var resultIntent = await Submit();
-
-                if (resultIntent.HasExtra(KEY_ERROR_MESSAGE))
-                {
-                    Toast.MakeText(this, "Error Occured" + Intent.GetStringExtra(KEY_ERROR_MESSAGE), ToastLength.Long).Show();
-
-                }
-                else
-                {
-                    //Toast.MakeText(this, "Success" + resultIntent.GetStringExtra(AccountManager.KeyAuthtoken), ToastLength.Long).Show();
-                   
-                    FinishLogin(resultIntent);
-                }
-
-            };
             
         }
 
@@ -99,7 +107,7 @@ namespace com.rapidcircle.iimAuthenticator
                 /*Add the user info from UserInfo object*/
                 data.PutString(AccountManager.KeyAccountName, result.AuthResult.UserInfo.GivenName + " " + result.AuthResult.UserInfo.FamilyName);
                 data.PutString(AccountManager.KeyAccountType, mAccountType);
-                data.PutString(AccountManager.KeyAuthtoken, result.AuthResult.AccessToken);
+                data.PutString(AccountManager.KeyAuthtoken, result.SharePointAccessToken);
                 data.PutBoolean(ARG_IS_ADDING_NEW_ACCOUNT, true);
                 //data.PutExtra(AccountManager.KeyAccountAuthenticatorResponse, response);
                 //data.PutString(PARAM_USER_PASS, userPass);
