@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="17C88" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="224">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <scene sceneID="223">
+            <objects>
+                <viewController id="224" sceneMemberID="viewController" customClass="LoginViewController" storyboardIdentifier="Login_VC">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="221"/>
+                        <viewControllerLayoutGuide type="bottom" id="222"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="225" restorationIdentifier="Login_VC" customClass="LoginViewController" customModule="Login_VC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" colorSpace="calibratedRGB" red="0.93725490196078431" green="0.062745098039215685" blue="0.062745098039215685" alpha="1"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="230" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="172" y="358" width="71" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint id="231" firstItem="230" firstAttribute="centerX" secondItem="225" secondAttribute="centerX"/>
+                            <constraint id="232" firstItem="230" firstAttribute="centerY" secondItem="225" secondAttribute="centerY" constant="0.5"/>
+                            <constraint id="233" firstItem="230" firstAttribute="centerX" secondItem="225" secondAttribute="centerX"/>
+                        </constraints>
+                    </view>
+                    <connections/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="226" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-221" y="-428"/>
+        </scene>
+    </scenes>
+</document>
