@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="ADAuthService.cs" />
     <Compile Include="AuthContainer.cs" />
+    <Compile Include="AuthResultCode.cs" />
     <Compile Include="LoginViewController.cs" />
     <Compile Include="LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>

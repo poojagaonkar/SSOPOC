@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using UIKit;
 
@@ -9,9 +10,11 @@ namespace IIMIosAuthenticator
         public LoginViewController (IntPtr handle) : base (handle)
         {
         }
-        public override void ViewDidLoad()
+        public override async void ViewDidLoad()
         {
             base.ViewDidLoad();
+            var result = await ADAuthService.Instance.Authenticate("https://graph.microsoft.com", new PlatformParameters(this));
+
         }
     }
 }

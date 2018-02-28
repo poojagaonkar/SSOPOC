@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using com.rapidcircle.iimAuthenticator;
 using System.Threading.Tasks;
 
-namespace IIMAuthenticator.AuthService
+namespace IIMIosAuthenticator
 {
     public class ADAuthService
     {
         private AuthenticationContext authContext;
+
 
         public AuthContainer AuthenticationResult { get; set; }
 

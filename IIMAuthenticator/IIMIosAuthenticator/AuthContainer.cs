@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using com.rapidcircle.iimAuthenticator;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-
-namespace IIMAuthenticator.Model
+namespace IIMIosAuthenticator
 {
     public class AuthContainer
     {

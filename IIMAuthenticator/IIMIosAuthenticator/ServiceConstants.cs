@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 
-namespace com.rapidcircle.iimAuthenticator
+namespace IIMIosAuthenticator
 {
     public static class ServiceConstants
     {
